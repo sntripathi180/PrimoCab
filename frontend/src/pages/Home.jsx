@@ -7,6 +7,7 @@ import LocationSearchPanel from '../components/LocationSearchPanel';
 import VehiclePanel from '../components/VehiclePanel';
 import ConfirmRide from '../components/ConfirmRide';
 import LookingForDrivers from '../components/LookingForDrivers';
+import WaitingForDriver from '../components/WaitingForDriver';
 
 const Home = () => {
 const [pickUp, setPickUp] = useState('')
@@ -17,10 +18,11 @@ const vehiclePanelRef = useRef(null)
 const confirmRidePanelRef = useRef(null)
 const panelCloseRef = useRef(null)
 const vehicleFoundRef = useRef(null)
+const waitingForDriverRef = useRef(null)
 const [vehiclePanelOpen,setVehiclePanelOpen] = useState(false)
 const [confirmRidePanel,setConfirmRidePanel] = useState(false)
 const [vehicleFound,setVehicleFound] = useState(false)
-
+const [waitingForDriver, setwaitingForDriver] = useState(false)
   const submitHandler = (e) => {
     e.preventDefault()
     console.log('submitted')
@@ -72,6 +74,18 @@ useGSAP(function(){
   }
 },[vehicleFound])
 
+useGSAP(function(){
+  if(waitingForDriver){
+    gsap.to(waitingForDriverRef.current,{
+      transform:'translateY(0)'
+    })
+  }else{
+    gsap.to(waitingForDriverRef.current,{
+      transform:'translateY(100%)'
+    })
+  }
+},[waitingForDriver])
+
   return (
     <div className='h-screen relative overflow-hidden'>
       <img  className='w-16 absolute' src="/logo.png" alt="logo" />
@@ -119,9 +133,12 @@ useGSAP(function(){
       <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound}/>
       </div>
       <div ref={vehicleFoundRef} className='fixed  w-full z-10 bottom-0  px-3 translate-y-full py-8 bg-white pt-12'>
-          <LookingForDrivers/>
+          <LookingForDrivers setVehicleFound={setVehicleFound}/>
       </div>
       
+      <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12'>
+<WaitingForDriver waitingForDriver={waitingForDriver} />
+      </div>
     </div>
   )
 }

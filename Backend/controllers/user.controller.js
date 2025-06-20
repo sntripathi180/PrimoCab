@@ -58,9 +58,13 @@ module.exports.getUserProfile = async (req,res,next)=>{
 }
 
 module.exports.logoutUser = async (req,res,next)=>{
+    // res.clearCookie() doesn't delete req.cookies.token during the current request.
     res.clearCookie('token');
+    //so here we can access the token
     const token = req.cookies.token || req.headers.authorization.split(' ')[1];
-
+    if (!token) {
+    return res.status(400).json({ message: "Token not found" });
+    }
     await blacklistTokenModel.create({token});
     res.status(200).json({message:'Logged out successfully'});
 }

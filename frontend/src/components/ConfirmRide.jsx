@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ConfirmRide = () => {
+const ConfirmRide = (props) => {
   return (
     <div>
          <h5 className='p-3 text-center w-full absolute top-0 ' onClick={()=>{
