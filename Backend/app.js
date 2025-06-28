@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config()
-console.log("✅ Loaded ENV Variables: ", process.env.PORT, process.env.DB_CONNECT);
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const connectToDb = require('./db/db');
 const userRoutes = require('./routes/user.routes');
 const captainRoutes = require('./routes/captain.routes');
+const mapsRoutes = require('./routes/map.routes')
+const rideRoutes = require('./routes/ride.routes')
 
 connectToDb();
 app.use(cors());
@@ -22,5 +24,7 @@ app.get('/',(req,res) =>{
 
 app.use('/users',userRoutes);
 app.use('/captains',captainRoutes);
+app.use('/maps',mapsRoutes);
+app.use('/rides',rideRoutes);
 
 module.exports = app;

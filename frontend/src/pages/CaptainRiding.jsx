@@ -1,12 +1,16 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import FinishRide from '../components/FinishRide'
+import LiveTracking from '../components/LiveTracking'
 
 const CaptainRiding = () => {
     const [finishRidePanel, setFinishRidePanel] = useState(false)
     const finishRidePanelRef = useRef(null)
+    const location = useLocation()
+    const rideData = location.state?.ride
+
 
     useGSAP(function(){
   if(finishRidePanel){
@@ -22,25 +26,26 @@ const CaptainRiding = () => {
 
 
   return (
-   <div className="h-screen relative">
+   <div className="h-screen relative flex flex-col justify-end">
    
       <div className="fixed p-6 top-0  flex items-center justify-between w-screen">
         <img className="w-16" src="./logo.png" alt="" />
         <Link
-          to="/home"
+          to="/captain-home"
           className=" h-8 w-8 bg-white flex items-center justify-center rounded-full border-2 border-gray-400"
         >
           <img className="text-sm font-medium " src="./exit.png" alt="home" />
         </Link>
       </div>
-      <div className="h-4/5">
-        <img className="h-full w-full object-cover" src="./map.png" alt="" />
-      </div>
-      <div className="h-1/5 p-1 bg-yellow-400 flex items-center justify-between relative " onClick={()=>{
+
+      <div className="h-1/5 p-6 flex items-center justify-between relative bg-yellow-400 pt-10"
+      onClick={()=>{
         setFinishRidePanel(true)
-      }}>
+      }}
+      >
+      
        <h5
-        className="p-1 text-center w-[93%] absolute top-0 "
+        className="p-1 text-center w-[90%] absolute top-0 "
         onClick={() => {
           
         }}
@@ -52,7 +57,13 @@ const CaptainRiding = () => {
 
       </div>
       <div ref={finishRidePanelRef} className='fixed  w-full z-10 bottom-0  px-3 translate-y-full py-8 bg-white pt-12'>
-          <FinishRide setFinishRidePanel={setFinishRidePanel}/>
+          <FinishRide
+          ride={rideData}
+          setFinishRidePanel={setFinishRidePanel}/>
+      </div>
+
+      <div className='h-screen fixed top-0 z-[-1]'>
+        <LiveTracking/>
       </div>
        
     </div>
