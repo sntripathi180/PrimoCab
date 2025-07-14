@@ -1,6 +1,7 @@
-# User Registration Endpoint Documentation
+# User Endpoint Documentation
 
-## Endpoint: `/users/register`
+## 1. Register User
+### Endpoint: `/users/register`
 
 ### Method: POST
 
@@ -15,18 +16,100 @@ The request body should be a JSON object with the following structure:
 ```json
 {
   "fullname": {
-    "firstname": "string (required, min length: 3)",
-    "lastname": "string (optional, min length: 3)"
+    "firstname": "John",
+    "lastname": "Doe"
   },
-  "email": "string (required, valid email format, min length: 5)",
-  "password": "string (required, min length: 6)"
+  "email": "john@example.com",
+  "password": "securePass123"
 }
+
 ```
 ### Example Response
--`user`(object).
-    -`fullname` (string):User's first name (minimum 3 character)
-        -`firstname` (string):User's last name (minimum 3 characters).
-        -`lastname` (string):User's last name (minimum 3 characters).
-    -`email` (string) : User's email address(must be a valid email),
-    -`password` (string) : User's password (minimum 6 characters)
--`token` (string) : JWT Token
+```
+{
+  "token": "<JWT_TOKEN>",
+  "user": {
+    "_id": "64d3b1...",
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+## 2. Login User
+### Method: POST
+
+### Endpoint: `/login`
+
+### Description: 
+
+Login an existing user using email and password.
+
+### Request Body (JSON):
+
+```
+{
+  "email": "john@example.com",
+  "password": "securePass123"
+}
+
+```
+
+### Sample Response:
+```
+{
+  "token": "<JWT_TOKEN>",
+  "user": {
+    "_id": "64d3b1...",
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@example.com"
+  }
+}
+
+```
+
+## 3. Get User Profile
+### Method: GET
+
+### Endpoint: `/profile`
+
+### Description:
+ Get the logged-in user's profile.
+
+### Headers:
+```
+Authorization: Bearer <JWT_TOKEN>
+
+```
+
+###  Sample Response:
+```
+{
+  "_id": "64d3b1...",
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john@example.com"
+}
+
+```
+## 4. Logout User
+### Method: GET
+
+### Endpoint: `/logout`
+
+### Description:
+ Logs out the user by clearing the token and blacklisting it.
+
+### Headers:
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+###  Sample Response:
+```
+{
+  "message": "Logged out successfully"
+}
+```
+
