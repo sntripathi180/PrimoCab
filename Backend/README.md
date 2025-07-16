@@ -415,3 +415,252 @@ GET `/maps/get-suggestions?input=delhi`
 ```json
 ["Delhi University", "Delhi Cantt", "Delhi Airport", "Delhi Metro Station"]
 ```
+
+
+
+# Ride API Documentation
+
+## 1. Create Ride
+### Method: POST
+
+### Endpoint: `/rides/create`
+
+### Description: 
+Initiates a ride request by a user and notifies nearby captains.
+
+### Headers:
+
+`Authorization: Bearer <JWT_TOKEN>   // User Token`
+
+### Request Body:
+```json
+{
+  "pickup": "Connaught Place, Delhi",
+  "destination": "India Gate, Delhi",
+  "vehicleType": "auto"
+}
+```
+### Sample Response:
+```json
+{
+  {
+    "user": "user_id",
+    "pickup": "Connaught Place, Delhi",
+    "destination": "India Gate, Delhi",
+    "fare": 76,
+    "status": "pending",
+    "otp": "823088",
+    "_id": "...",
+    "__v": 0
+}
+}
+```
+## 2. Get Fare
+
+
+### Method: GET
+
+### Endpoint: `/rides/get-fare`
+
+### Description: 
+Estimate the ride fare for a given route.
+
+### Headers:
+`
+Authorization: Bearer <JWT_TOKEN>
+`
+### Query Parameters:
+```
+pickup => string(required)	=> Connaught Place, Delhi
+destination	=> string(required)	=> India Gate, Delhi
+```
+### Sample Request:
+
+GET   `/rides/get-fare?pickup=Connaught+Place&destination=India+Gate`
+### Sample Response:
+```json
+{
+    "auto": 76,
+    "car": 119,
+    "moto": 56
+}
+```
+## 3. Confirm Ride (by Captain)
+### Method: POST
+
+### Endpoint: `/rides/confirm`
+
+### Description: 
+Confirms a ride by an available captain.
+
+### Headers:
+`
+Authorization: Bearer <JWT_TOKEN>  // Captain Token`
+
+### Request Body:
+```json
+
+{
+  "rideId": "64d8d9abc1234567890abcde"
+}
+```
+### Sample Response:
+```json
+
+{
+  {
+    "_id": "..",
+    "user": {
+        "fullname": {
+            "firstname": "sam",
+            "lastname": "alt"
+        },
+        "_id": "user-id",
+        "email": "a@gmail.com",
+        "__v": 0
+    },
+    "pickup": "Connaught Place, Delhi",
+    "destination": "India Gate, Delhi",
+    "fare": 76,
+    "status": "accepted",
+    "otp": "823088",
+    "__v": 0,
+    "captain": {
+        "fullname": {
+            "firstname": "Raj",
+            "lastname": "Kumar"
+        },
+        "vehicle": {
+            "color": "Red",
+            "plate": "DL10AB1234",
+            "capacity": 4,
+            "vehicleType": "car"
+        },
+        "_id": "captain-id",
+        "email": "raj@example.com",
+        "status": "active",
+        "__v": 0
+    }
+  }
+}
+```
+
+## 4. Start Ride
+### Method: GET
+
+### Endpoint: `/rides/start-ride`
+
+### Description: 
+Starts the ride after OTP validation by the captain.
+
+### Headers:
+`
+Authorization: Bearer <JWT_TOKEN>   // Captain Token`
+
+### Query Parameters:
+`
+rideId	=> string(required)	=> MongoDB ObjectId
+otp	=> string(required)	=> 6-digit OTP from user
+`
+### Sample Request:
+`
+GET /rides/start-ride?rideId=64d8d9abc1234567890abcde&otp=123456`
+### Sample Response:
+```json
+
+{
+    "_id": "....",
+    "user": {
+        "fullname": {
+            "firstname": "sam",
+            "lastname": "alt"
+        },
+        "_id": "...",
+        "email": "a@gmail.com",
+        "__v": 0
+    },
+    "pickup": "Connaught Place, Delhi",
+    "destination": "India Gate, Delhi",
+    "fare": 76,
+    "status": "accepted",
+    "otp": "823088",
+    "__v": 0,
+    "captain": {
+        "fullname": {
+            "firstname": "Raj",
+            "lastname": "Kumar"
+        },
+        "vehicle": {
+            "color": "Red",
+            "plate": "DL10AB1234",
+            "capacity": 4,
+            "vehicleType": "car"
+        },
+        "_id": "...",
+        "email": "raj@example.com",
+        "status": "active",
+        "__v": 0
+    }
+}
+```
+
+## 5. End Ride
+### Method: POST
+
+### Endpoint: `/rides/end-ride`
+
+### Description:
+ Ends the ride and marks it as completed.
+
+### Headers:
+```
+Authorization: Bearer <JWT_TOKEN>  // Captain Token
+```
+
+### Request Body:
+```json
+
+{
+  "rideId": "64d8d9abc1234567890abcde"
+}
+ ```
+    
+    
+### Sample Response:
+```json
+
+{
+    "_id": "...",
+    "user": {
+        "fullname": {
+            "firstname": "sam",
+            "lastname": "alt"
+        },
+        "_id": "...",
+        "email": "a@gmail.com",
+        "__v": 0
+    },
+    "pickup": "Connaught Place, Delhi",
+    "destination": "India Gate, Delhi",
+    "fare": 76,
+    "status": "ongoing",
+    "otp": "823088",
+    "__v": 0,
+    "captain": {
+        "fullname": {
+            "firstname": "Raj",
+            "lastname": "Kumar"
+        },
+        "vehicle": {
+            "color": "Red",
+            "plate": "DL10AB1234",
+            "capacity": 4,
+            "vehicleType": "car"
+        },
+        "_id": "...",
+        "email": "raj@example.com",
+        "status": "active",
+        "__v": 0
+    }
+} 
+```

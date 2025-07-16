@@ -1,4 +1,4 @@
-const rideService = require('../services/captain.service')
+const rideService = require('../services/ride.service')
 const {validationResult} = require('express-validator');
 const mapService = require('../services/maps.service')
 const { sendMessageToSocketId} = require('../socket');
