@@ -12,7 +12,6 @@ const CaptainSignup = () => {
   const [ password, setPassword ] = useState('')
   const [ firstName, setFirstName ] = useState('')
   const [ lastName, setLastName ] = useState('')
-
   const [ vehicleColor, setVehicleColor ] = useState('')
   const [ vehiclePlate, setVehiclePlate ] = useState('')
   const [ vehicleCapacity, setVehicleCapacity ] = useState('')
@@ -43,7 +42,8 @@ const CaptainSignup = () => {
 
     if (response.status === 201) {
       const data = response.data
-      setCaptain(data.captain)
+      setCaptain(data)
+      // console.log(data)
       localStorage.setItem('token', data.token)
       navigate('/captain-home')
     }

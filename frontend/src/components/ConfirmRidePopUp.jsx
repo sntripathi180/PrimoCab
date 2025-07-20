@@ -27,23 +27,23 @@ const navigate = useNavigate()
         }
     }
   return (
-    <div>
+    <div >
       <h5
-        className="p-3 text-center w-full absolute top-0 "
+        className=" text-center w-full absolute top-0 "
         onClick={() => {
           props.setRidePopupPanel(false);
         }}
       >
         <i className="text-2xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">
+      <h3 className="text-2xl font-semibold ">
         Confirm this ride to Start!!
       </h3>
 
-      <div className="flex items-center justify-between mt-4 p-3 bg-yellow-300 rounded-lg">
+      <div className="flex items-center justify-between mt-2 p-3 bg-yellow-300 rounded-lg">
         <div className="flex items-center gap-3">
           <img
-            className="h-12 w-12 rounded-full object-cover"
+            className="h-9 w-9 rounded-full object-cover"
             src="./driver.jpg"
             alt="user"
           />
@@ -52,22 +52,22 @@ const navigate = useNavigate()
         <h5 className="text-lg font-semibold">2.2KM</h5>
       </div>
       <div className="flex justify-between flex-col items-center">
-        <div className="w-full mt-5">
-          <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
+        <div className="w-full ">
+          <div className="flex items-center gap-5 p-2 border-b-2 border-gray-300">
             <i className="text-lg ri-user-location-line"></i>
             <div>
-              <h3 className="text-lg font-medium">563/111-A</h3>
+              <h3 className="text-lg font-medium">Source</h3>
               <p className="text-sm -mt-1 text-gray-600 ">{props.ride?.pickup}</p>
             </div>
           </div>
-          <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
+          <div className="flex items-center gap-5 p-2 border-b-2 border-gray-300">
             <i className="text-lg ri-map-pin-range-line"></i>
             <div>
-              <h3 className="text-lg font-medium">C-62</h3>
+              <h3 className="text-lg font-medium">Destination</h3>
               <p className="text-sm -mt-1 text-gray-600 ">{props.ride?.destination}</p>
             </div>
           </div>
-          <div className="flex items-center gap-5 p-3 ">
+          <div className="flex items-center gap-5 p-2 ">
             <i className="ri-currency-line"></i>
             <div>
               <h3 className="text-lg font-medium">₹{props.ride?.fare}</h3>
@@ -76,15 +76,10 @@ const navigate = useNavigate()
           </div>
         </div>
 
-        <div className="mt-6 w-full">
+        <div className=" w-full">
           <form onSubmit={submitHandler}>
             <input value={otp} onChange={(e)=>setOtp(e.target.value)} type="text" placeholder="Enter OTP" className='bg-[#eee] px-6 py-1 text-lg rounded-lg w-full  mt-3 font-mono' />
-            {/* <Link
-              to={"/captain-riding"}
-              className="w-full flex justify-center bg-green-400 text-white font-semibold p-2 rounded-lg mt-5"
-            >
-              Confirm
-            </Link> */}
+          
              <button className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Confirm</button>
                        
             <button

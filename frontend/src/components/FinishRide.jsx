@@ -53,7 +53,7 @@ const FinishRide = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
             <i className="text-lg ri-user-location-line"></i>
             <div>
-              <h3 className="text-lg font-medium">563/111-A</h3>
+              <h3 className="text-lg font-medium">Source</h3>
               <p className="text-sm -mt-1 text-gray-600 ">
                 {props.ride?.pickup}
               </p>
@@ -62,7 +62,7 @@ const FinishRide = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
             <i className="text-lg ri-map-pin-range-line"></i>
             <div>
-              <h3 className="text-lg font-medium">C-62</h3>
+              <h3 className="text-lg font-medium">Destination</h3>
               <p className="text-sm -mt-1 text-gray-600 ">
                 {props.ride?.destination}
               </p>

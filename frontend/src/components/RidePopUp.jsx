@@ -2,7 +2,7 @@ import React from "react";
 
 const RidePopUp = (props) => {
   return (
-    <div>
+    <div >
       <h5
         className="p-3 text-center w-[93%] absolute top-0 "
         onClick={() => {
@@ -20,6 +20,9 @@ const RidePopUp = (props) => {
             src="./driver.jpg"
             alt="user"
           />
+          {/* console.log("User first name":{props.ride?.user.fullname.firstname +
+              " " +
+              props.ride?.user.fullname.lastname}) */}
           <h2 className="text-lg font-medium">
             {props.ride?.user.fullname.firstname +
               " " +
@@ -33,7 +36,7 @@ const RidePopUp = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
             <i className="text-lg ri-user-location-line"></i>
             <div>
-              <h3 className="text-lg font-medium">563/111-A</h3>
+              <h3 className="text-lg font-medium">Source</h3>
               <p className="text-sm -mt-1 text-gray-600 ">
                 {props.ride?.pickup}
               </p>
@@ -42,7 +45,7 @@ const RidePopUp = (props) => {
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
             <i className="text-lg ri-map-pin-range-line"></i>
             <div>
-              <h3 className="text-lg font-medium">C-62</h3>
+              <h3 className="text-lg font-medium">Destination</h3>
               <p className="text-sm -mt-1 text-gray-600 ">
                 {props.ride?.destination}
               </p>
@@ -51,7 +54,7 @@ const RidePopUp = (props) => {
           <div className="flex items-center gap-5 p-3 ">
             <i className="ri-currency-line"></i>
             <div>
-              <h3 className="text-lg font-medium">{props.ride?.fare}</h3>
+              <h3 className="text-lg font-medium">₹ {props.ride?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600 ">CASH only</p>
             </div>
           </div>

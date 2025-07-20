@@ -10,6 +10,7 @@ import { useEffect, useContext } from "react";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -21,18 +22,17 @@ const CaptainHome = () => {
 
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
-
+  // console.log("Rendering CaptainHome, captain:", captain);
   useEffect(() => {
     socket.emit("join", {
-      userId: captain._id,
+      userId: captain.captain._id,
       userType: "captain",
     });
-
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           socket.emit("update-location-captain", {
-            userId: captain._id,
+            userId: captain.captain._id,
             location: {
               ltd: position.coords.latitude,
               lng: position.coords.longitude,
@@ -44,9 +44,12 @@ const CaptainHome = () => {
 
     const locationInterval = setInterval(updateLocation, 10000);
     updateLocation();
+
+    // return () => clearInterval(locationInterval)
   }, []);
 
   socket.on("new-ride", (data) => {
+    console.log("new ride data", data);
     setRide(data);
     setRidePopupPanel(true);
   });
@@ -100,39 +103,34 @@ const CaptainHome = () => {
   );
 
   return (
-    <div className="h-screen">
-      <div className="fixed p-3 top-0  flex items-center justify-between w-screen">
-        <img className="w-16" src="./logo.png" alt="" />
-        <Link
-          to="/captain-home"
-          className=" h-8 w-8 bg-white flex items-center justify-center rounded-full border-2 border-gray-400"
-        >
-          <img className="text-sm font-medium " src="./exit.png" alt="home" />
-        </Link>
+    <div className="h-screen relative">
+   {/* <div className="fixed p-6 top-0 z-20 flex items-center justify-end w-screen">
+  <img className="w-16" src="./logo.png" alt="logo" />
+</div> */}
+
+      <div className="h-3/5 relative z-0">
+        <LiveTracking/>
       </div>
-      <div className="h-3/5">
-        <img className="h-full w-full object-cover" src="./map.png" alt="" />
-      </div>
-      <div className="h-2/5 p-4">
-        <CaptainDetails />
+      <div className="h-2/5 p-6 relative z-10">
+        <CaptainDetails /> 
       </div>
       <div
         ref={ridePopupPanelRef}
-        className="fixed  w-full z-10 bottom-0  px-3 translate-y-full py-8 bg-white pt-12"
+        className="fixed w-full z-30 bottom-0 translate-y-full bg-white px-3 py-10 pt-12 "
       >
         <RidePopUp
           ride={ride}
-          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           confirmRide={confirmRide}
         />
       </div>
       <div
         ref={confirmRidePopupPanelRef}
-        className="fixed  w-full z-10 bottom-0  px-3 translate-y-full py-8 bg-white pt-12 h-screen"
+        className="fixed w-full h-screen z-40 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
       >
         <ConfirmRidePopUp
-        ride = {ride}
+          ride={ride}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
         />
