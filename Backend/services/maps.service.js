@@ -6,7 +6,7 @@ module.exports.getAddressCoordinates = async (address) => {
 
   try {
     const response = await axios.get(url, {
-      headers: { "User-Agent": "PrimoCab" } // Required by Nominatim
+      headers: { "User-Agent": "PrimoCab" } 
     });
 
     if (response.data.length > 0) {
@@ -77,15 +77,32 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     throw new Error("Unable to fetch suggestions");
   }
 };
-
-module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
-  const captains = await captainModel.find({
-    location: {
-      $geoWithin: {
-        $centerSphere: [[ltd, lng], radius / 6371],
-      },
-    },
-  });
-
-  return captains;
+const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 };
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+    // radius in km
+
+
+    const captains = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
+            }
+        }
+    });
+
+    return captains;
+
+
+}

@@ -10,7 +10,7 @@ router.post('/register',[
     body('vehicle.color').isLength({min:3}).withMessage('Color must be at least 3 char long'),
     body('vehicle.plate').isLength({min:3}).withMessage('Plate must be at least 3 char long'),
     body('vehicle.capacity').isNumeric().withMessage('Capacity must be a number'),
-    body('vehicle.vehicleType').isIn(['car','bike','auto']).withMessage('Invalid vehicle type')
+    body('vehicle.vehicleType').isIn(['car','motorcycle','auto']).withMessage('Invalid vehicle type')
 ] ,captainController.registerCaptain)
 
 router.post('/login',[

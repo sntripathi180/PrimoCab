@@ -37,7 +37,7 @@ const captainSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["active", "inactive"],
-    default: "active",
+    default: "inactive",
   },
   vehicle: {
     color: {
@@ -58,7 +58,7 @@ const captainSchema = new mongoose.Schema({
     vehicleType: {
       type: String,
       required: true,
-      enum: ["car", "bike", "auto"],
+      enum: ["car", "motorcycle", "auto"],
     },
   },
   location: {
